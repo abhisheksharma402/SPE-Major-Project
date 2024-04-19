@@ -1,8 +1,10 @@
 package com.spe.project.travelguide.main.User;
 
+import com.spe.project.travelguide.main.dto.requests.FlightBookRequest;
 import com.spe.project.travelguide.main.dto.response.AuthenticationResponse;
 import com.spe.project.travelguide.main.dto.requests.AuthenticationRequest;
 import com.spe.project.travelguide.main.dto.requests.RegistrationRequest;
+import com.spe.project.travelguide.main.dto.response.FlightBookResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -34,6 +36,12 @@ public class UserController {
     @GetMapping("/activate-account")
     public void confirm(@RequestParam String token) throws MessagingException {
         userService.activateAccount(token);
+    }
+
+
+    @PostMapping("/bookFlight")
+    public ResponseEntity<FlightBookResponse> bookFlight(@RequestBody FlightBookRequest flightBookRequest){
+        return null;
     }
 
 }
