@@ -1,6 +1,6 @@
 package com.spe.project.travelguide.main.Payment;
 
-import com.spe.project.travelguide.main.FlightBooking.FlightBookingEntity;
+import com.spe.project.travelguide.main.Booking.BookingEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,9 +22,11 @@ public class PaymentEntity {
     private LocalDateTime paymentDate;
     private String transactionId;
 
-    // Define relationships with different types of bookings
-    @ManyToOne
-    @JoinColumn(name = "flight_booking_id")
-    private FlightBookingEntity flightBooking;
+    private String paymentMethod;
+
+    @OneToOne(mappedBy = "payment")
+    @JoinColumn(name = "booking_id")
+    private BookingEntity booking;
+
 
 }
