@@ -12,5 +12,6 @@ public class AgentActivationRequest {
 
     private String email;
     private String activationToken;
-
+//    @Override
+//    public String toString()
 }

@@ -74,12 +74,12 @@ public class AgentService {
 
         var claims = new HashMap<String, Object>();
 
-        var agency = ((AgencyEntity)auth.getPrincipal());
+        var agent = ((AgentEntity)auth.getPrincipal());
 
-        System.out.println(agency);
+        System.out.println(agent);
 
-        claims.put("fullName", agency.getName());
-        var jwtToken = jwtService.generateToken(claims, agency);
+        claims.put("fullName", agent.getName());
+        var jwtToken = jwtService.generateToken(claims, agent);
 
         return AgentAuthenticationResponse.builder().token(jwtToken).build();
 
@@ -99,10 +99,14 @@ public class AgentService {
 
     }
 
+
     private String generateAndSaveActivationToken(AgentEntity agentEntity) {
         String generatedToken = generateActivationCode(6);
         agentEntity.setActivationToken(generatedToken);
         agentEntity.setTokenCreationTime(LocalDateTime.now());
+        System.out.println("saving agent after updating token and creation time");
+        System.out.println(agentEntity);
+        System.out.println(agentEntity.getId());
         agentRepository.save(agentEntity);
         return generatedToken;
     }

@@ -37,7 +37,8 @@ public class AgentController {
     }
 
     @GetMapping("/activate-account")
-    public void confirm(@RequestBody @Valid AgentActivationRequest agentActivationRequest) throws MessagingException {
+    public void confirm(@RequestBody  AgentActivationRequest agentActivationRequest) throws MessagingException {
+        System.out.println("this is agentActivationRequest: "+agentActivationRequest);
         agentService.activateAccount(agentActivationRequest);
     }
 

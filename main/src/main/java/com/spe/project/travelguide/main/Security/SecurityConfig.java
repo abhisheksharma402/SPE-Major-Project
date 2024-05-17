@@ -43,7 +43,6 @@ public class SecurityConfig {
 //                                    "/swagger-ui.html"
                             ).permitAll()
 //                                    .anyRequest()
-//                                    .authenticated()
                         );
 //                .sessionManagement(session-> session.sessionCreationPolicy(STATELESS))
 //                .authenticationProvider(authenticationProvider)
