@@ -3,6 +3,7 @@ package com.spe.project.travelguide.main.User;
 import com.spe.project.travelguide.main.Security.JwtService;
 import com.spe.project.travelguide.main.dto.requests.AuthenticationRequest;
 import com.spe.project.travelguide.main.dto.requests.RegistrationRequest;
+import com.spe.project.travelguide.main.dto.requests.UserActivationRequest;
 import com.spe.project.travelguide.main.dto.response.AuthenticationResponse;
 import com.spe.project.travelguide.main.email.EmailService;
 import com.spe.project.travelguide.main.email.EmailTemplateName;
@@ -19,8 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +33,6 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final TokenRepository tokenRepository;
     private final EmailService emailService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
@@ -67,13 +70,9 @@ public class UserService {
 
     private String generateAndSaveActivationToken(UserEntity user) {
         String generatedToken = generateActivationCode(6);
-        var token = Token.builder()
-                .token(generatedToken)
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes(15))
-                .user(user)
-                .build();
-        tokenRepository.save(token);
+        user.setActivationToken(generatedToken);
+        user.setTokenCreationTime(LocalDateTime.now());
+        userRepository.save(user);
         return generatedToken;
     }
 
@@ -90,7 +89,6 @@ public class UserService {
         return codeBuilder.toString();
 
     }
-
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
 
@@ -119,25 +117,29 @@ public class UserService {
 
     }
 
-//    @Transactional
-    public void activateAccount(String token) throws MessagingException {
-        Token savedToken = tokenRepository.findByToken(token)
-                // exception needs to be defined - later
-                .orElseThrow(()->new RuntimeException("Invalid Token"));
 
-        if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())){
-            sendEmailValidation(savedToken.getUser());
+    @Transactional
+    public void activateAccount(UserActivationRequest userActivationRequest) throws MessagingException {
+        String email = userActivationRequest.getEmail();
+        String activationToken = userActivationRequest.getActivationToken();
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(()->new RuntimeException("User not found"));
+
+        if(!Objects.equals(activationToken, user.getActivationToken())){
+            throw new RuntimeException("Invalid Token!");
+        }
+
+        if(Duration.between(user.getTokenCreationTime(), LocalDateTime.now()).getSeconds() > 5*60){
+            sendEmailValidation(user);
             throw new RuntimeException("Activation Token has expired. A new token has been sent to the same email address");
         }
 
-        var user = userRepository.findById(Long.valueOf(savedToken.getUser().getId()))
-                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+//        var user = userRepository.findById(Long.valueOf(savedToken.getUser().getId()))
+//                .orElseThrow(()->new UsernameNotFoundException("User not found"));
 
         user.setVerified(true);
+        user.setVerifiedAt(LocalDateTime.now());
         userRepository.save(user);
-        savedToken.setValidatedAt(LocalDateTime.now());
-        tokenRepository.save(savedToken);
-
 
     }
 }

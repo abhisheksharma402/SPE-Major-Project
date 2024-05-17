@@ -6,7 +6,13 @@ import com.spe.project.travelguide.main.Agent.AgentEntity;
 import com.spe.project.travelguide.main.Package.PackageEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Getter
@@ -16,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name="agency")
-public class AgencyEntity {
+public class AgencyEntity implements UserDetails, Principal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +32,8 @@ public class AgencyEntity {
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    private String password;
 
     @Column(nullable = false)
     private Long phoneNumber;
@@ -49,6 +57,42 @@ public class AgencyEntity {
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "agency-agent")
     private List<AgentEntity> agents;
+
+    private String activationToken;
+
+    private LocalDateTime tokenCreationTime;
+
+    private LocalDateTime verifiedAt;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new HashSet<GrantedAuthority>();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isVerified;
+    }
 
 
 }

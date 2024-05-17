@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -31,8 +32,12 @@ public class UserEntity implements UserDetails, Principal {
     private String email;
     private String password;
     private boolean verified;
-//    private boolean accountLocked;
 
+    private String activationToken;
+
+    private LocalDateTime tokenCreationTime;
+
+    private LocalDateTime verifiedAt;
 
 
     @Override
