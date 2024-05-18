@@ -36,10 +36,15 @@ public class AgentController {
 
     }
 
-    @GetMapping("/activate-account")
+    @PostMapping("/activate-account")
     public void confirm(@RequestBody  AgentActivationRequest agentActivationRequest) throws MessagingException {
         System.out.println("this is agentActivationRequest: "+agentActivationRequest);
         agentService.activateAccount(agentActivationRequest);
+    }
+
+    @GetMapping("/hello")
+    public void sayHello(){
+        System.out.println("Hello from a secured endpoint!");
     }
 
 

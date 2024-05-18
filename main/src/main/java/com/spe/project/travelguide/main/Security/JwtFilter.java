@@ -31,9 +31,9 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        if(request.getServletPath().contains("/api/v1/auth")){
-            filterChain.doFilter(request, response);
-        }
+//        if(request.getServletPath().contains("/api/v1/auth")){
+//            filterChain.doFilter(request, response);
+//        }
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;

@@ -72,7 +72,8 @@ public class UserService {
         String generatedToken = generateActivationCode(6);
         user.setActivationToken(generatedToken);
         user.setTokenCreationTime(LocalDateTime.now());
-        userRepository.save(user);
+        UserEntity tmp = userRepository.save(user);
+        System.out.println(tmp.toString());
         return generatedToken;
     }
 
@@ -118,7 +119,7 @@ public class UserService {
     }
 
 
-    @Transactional
+//    @Transactional
     public void activateAccount(UserActivationRequest userActivationRequest) throws MessagingException {
         String email = userActivationRequest.getEmail();
         String activationToken = userActivationRequest.getActivationToken();

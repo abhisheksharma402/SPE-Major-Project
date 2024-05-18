@@ -117,7 +117,7 @@ public class AgencyService {
         );
     }
 
-    @Transactional
+//    @Transactional
     public void activateAccount(AgencyActivationRequest agencyActivationRequest) throws MessagingException {
         String email = agencyActivationRequest.getEmail();
         String activationToken = agencyActivationRequest.getActivationToken();

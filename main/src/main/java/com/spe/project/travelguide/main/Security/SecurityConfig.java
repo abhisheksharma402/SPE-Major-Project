@@ -27,26 +27,21 @@ public class SecurityConfig {
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req->
-                            req.requestMatchers(
-                                    "/**"
-//                                    "/api/v1/**",
-//                                    "/user/**",
-//                                    "/v2/api-docs",
-//                                    "/v3/api-docs/**",
-//                                    "/swagger-resources",
-//                                    "swagger-resources/**",
-//                                    "/configuration/ui",
-//                                    "/configuration/security",
-//                                    "/swagger-ui/**",
-//                                    "/webjars/**",
-//                                    "/swagger-ui.html"
-                            ).permitAll()
-//                                    .anyRequest()
-                        );
-//                .sessionManagement(session-> session.sessionCreationPolicy(STATELESS))
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests(req->req
+                                .requestMatchers("/user/login").permitAll()
+                                .requestMatchers("/user/register").permitAll()
+                                .requestMatchers("/agency/login").permitAll()
+                                .requestMatchers("/agency/register").permitAll()
+                                .requestMatchers("/agent/login").permitAll()
+                                .requestMatchers("/agent/register").permitAll()
+                                .requestMatchers("/agent/activate-account").permitAll()
+                                .requestMatchers("/agency/activate-account").permitAll()
+                                .requestMatchers("/user/activate-account").permitAll()
+                                .requestMatchers("/**").fullyAuthenticated()
+                        )
+                .sessionManagement(session-> session.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @Tag(name="User")
 public class UserController {
@@ -32,9 +32,14 @@ public class UserController {
         return ResponseEntity.ok(userService.authenticate(authenticationRequest));
     }
 
-    @GetMapping("/activate-account")
+    @PostMapping("/activate-account")
     public void confirm(@RequestBody @Valid UserActivationRequest userActivationRequest) throws MessagingException {
         userService.activateAccount(userActivationRequest);
+    }
+
+    @GetMapping("/hello")
+    public void sayHello(){
+        System.out.println("Hello from a secured endpoint!");
     }
 
 }

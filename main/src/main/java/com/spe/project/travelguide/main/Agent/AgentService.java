@@ -123,9 +123,10 @@ public class AgentService {
                 newToken,
                 "Travel Guide Account Activation"
         );
+
     }
 
-    @Transactional
+//    @Transactional
     public void activateAccount(AgentActivationRequest agentActivationRequest) throws MessagingException {
         String email = agentActivationRequest.getEmail();
         String activationToken = agentActivationRequest.getActivationToken();

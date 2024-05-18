@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("agency")
+@RequestMapping("/agency")
 @RequiredArgsConstructor
 @Tag(name="Agency")
 public class AgencyController {
@@ -55,9 +55,15 @@ public class AgencyController {
 
     }
 
-    @GetMapping("/activate-account")
+    @PostMapping("/activate-account")
     public void confirm(@RequestBody @Valid AgencyActivationRequest agencyActivationRequest) throws MessagingException {
         agencyService.activateAccount(agencyActivationRequest);
+    }
+
+
+    @GetMapping("/hello")
+    public void sayHello(){
+        System.out.println("Hello from a secured endpoint!");
     }
 
 
