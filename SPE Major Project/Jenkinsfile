@@ -5,6 +5,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "spe-frontend"
         KUBERNETES_NAMESPACE = 'default'
         GITHUB_REPO_URL = 'https://github.com/abhisheksharma402/SPE-Major-Project.git'
+        KUBECONFIG = credentials('kube-cred-main')
     }
 
     stages {
