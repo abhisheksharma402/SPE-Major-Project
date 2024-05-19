@@ -52,8 +52,10 @@ pipeline {
                steps {
                     script {
                          dir('SPE Major Project'){
-                              sh 'kubectl apply -f deployment.yml'
-                              sh 'kubectl apply -f service.yml'
+                              withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kube-cred-main', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                                   sh 'kubectl apply -f deployment.yml'
+                                   sh 'kubectl apply -f service.yml'
+                              }
                          }
                     }
                }
