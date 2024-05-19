@@ -21,8 +21,8 @@ pipeline {
           {
                steps {
 
-                    script {
-                         sh "cd SPE\ Major\ Project/"
+                    script {  
+                         sh "cd SPE Major Project"
                          docker.build("${DOCKER_IMAGE_NAME}", '.')
                     }
 
