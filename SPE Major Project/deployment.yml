@@ -13,7 +13,7 @@ spec:
         app: react-app
     spec:
       containers:
-      - name: react-app
-        image: abhisheksharma402/react-app:latest
+      - name: spe-frontend
+        image: abhisheksharma402/spe-frontend:latest
         ports:
         - containerPort: 80
