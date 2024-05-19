@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "spe-frontend"
         KUBERNETES_NAMESPACE = 'default'
         GITHUB_REPO_URL = 'https://github.com/abhisheksharma402/SPE-Major-Project.git'
-        KUBECONFIG = credentials('kube-cred-main')
+     //    KUBECONFIG = credentials('kube-cred-main')
     }
 
     stages {
@@ -52,8 +52,6 @@ pipeline {
                steps {
                     script {
                          dir('SPE Major Project'){
-                              sh 'echo "${KUBECONFIG_CONTENT}" > kubeconfig.yaml'
-                              sh 'export KUBECONFIG=$(pwd)/kubeconfig.yaml'
                               sh 'kubectl apply -f deployment.yml'
                               sh 'kubectl apply -f service.yml'
                          }
