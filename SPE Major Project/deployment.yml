@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: spe-frontend
-        image: abhisheksharma402/spe-frontend:latest
+        image: abhisheksharma402/spe-frontend:version2.0
         ports:
         - containerPort: 80
