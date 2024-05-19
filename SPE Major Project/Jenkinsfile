@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE_NAME = "spe-frontend"
+        KUBERNETES_NAMESPACE = 'default'
+        GITHUB_REPO_URL = 'https://github.com/abhisheksharma402/SPE-Major-Project.git'
+    }
+
+    stages {
+          stage('Checkout') {
+               steps {
+               
+				script{
+					git branch: 'React-server/main', url: "${GITHUB_REPO_URL}"
+				}
+			}
+          }
+
+          stage('Building Docker Image')
+          {
+               steps {
+
+                    script {
+                         docker.build("${DOCKER_IMAGE_NAME}", '.')
+                    }
+
+               }
+          }
+
+          stage('Pushing Docker Image')
+		{
+			steps {
+
+				script {
+
+					docker.withRegistry('', 'dockerhub-credentials') {
+
+						sh "docker image tag spe-frontend abhisheksharma402/spe-frontend:version2.0"
+						sh "docker push abhisheksharma402/spe-frontend:version2.0"
+
+					}
+				}
+
+			}
+		}
+
+          stage('Deploy to Kubernetes') {
+               steps {
+                    script {
+                         sh 'kubectl apply -f k8s/deployment.yaml'
+                         sh 'kubectl apply -f k8s/service.yaml'
+                    }
+               }
+          }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
