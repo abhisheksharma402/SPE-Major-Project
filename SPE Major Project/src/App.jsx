@@ -1,16 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css';
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import router from './Routes';
+import "./App.css";
+import { useState } from "react";
+import Login from "./pages/login/component/Login.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Agency from "./pages/agency/component/AgencyDashBoard.jsx"
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <RouterProvider router={router} />
-  )
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Login />} />
+			</Routes>
+		</BrowserRouter>
+		// <div>
+		// 	<Agency />
+		// </div>
+	);
 }
 
-export default App
+export default App;
