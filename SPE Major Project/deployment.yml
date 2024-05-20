@@ -16,4 +16,4 @@ spec:
       - name: spe-frontend
         image: abhisheksharma402/spe-frontend:version2.0
         ports:
-        - containerPort: 3000
+        - containerPort: 5173
