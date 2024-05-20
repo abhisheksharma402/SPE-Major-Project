@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: react-app-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 7000
     targetPort: 5173
