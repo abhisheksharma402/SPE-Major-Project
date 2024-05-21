@@ -33,6 +33,9 @@ public class PackageEntity {
     @Column(nullable = false)
     private int numberOfDays;
 
+    @Column(nullable=false)
+    private double price;
+
     @Column(nullable = false)
     private int numberOfNights;
 
@@ -55,6 +58,5 @@ public class PackageEntity {
     @JoinColumn(name="agent_id")
     @JsonBackReference(value = "agent-package")
     private AgentEntity agent;
-
 
 }

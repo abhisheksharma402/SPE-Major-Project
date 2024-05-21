@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 .requestMatchers("/agent/activate-account").permitAll()
                                 .requestMatchers("/agency/activate-account").permitAll()
                                 .requestMatchers("/user/activate-account").permitAll()
+                                .requestMatchers("/user/hello").permitAll()
                                 .requestMatchers("/**").fullyAuthenticated()
                         )
                 .sessionManagement(session-> session.sessionCreationPolicy(STATELESS))
